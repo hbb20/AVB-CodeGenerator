@@ -430,12 +430,10 @@ function getJavaNameForView(oneViewXml) {
 
 // get cookie and set cookie code is from w3schools
 function setCookie(cname, cvalue) {
-    console.log("cookie storing for " + cname + " value: " + cvalue);
     var d = new Date();
     d.setTime(d.getTime() + (30 * 24 * 60 * 60 * 1000)); //30 days
     var expires = "expires=" + d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";";
-    console.log("finally cookie stored for " + cname + " value: " + getCookie(cname));
 }
 
 function getCookie(cname) {
@@ -447,10 +445,8 @@ function getCookie(cname) {
             c = c.substring(1);
         }
         if (c.indexOf(name) == 0) {
-            console.log("Cookie value available for " + cname + " is " + c.substring(name.length, c.length));
             return c.substring(name.length, c.length);
         }
     }
-    console.log("No cookie available for " + cname);
     return "";
 }
