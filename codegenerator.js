@@ -434,8 +434,8 @@ function setCookie(cname, cvalue) {
     var d = new Date();
     d.setTime(d.getTime() + (30 * 24 * 60 * 60 * 1000)); //30 days
     var expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";domain = ''";
-    console.log("cookie stored for " + cname + " value: " + cvalue);
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";";
+    console.log("finally cookie stored for " + cname + " value: " + getCookie(cname));
 }
 
 function getCookie(cname) {
