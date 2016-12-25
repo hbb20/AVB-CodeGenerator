@@ -1,8 +1,8 @@
 var textAreaInput, textAreaOutput;
 var views;
 var initialized = false;
-var outputType = 3; //1: Activity 2: Fragment  3: ButterKnife8 4: ButterKnife
-var liActivities, liFragments, liButterKnife, liButterKnife8, lis;
+var outputType = 3; //1: Activity 2: Fragment  3: ButterKnife 4: ButterKnifeLib
+var liActivities, liFragments, liButterKnife, liButterKnifeLib, lis, chkAddPrefix;
 /*This will set initial value for input and set output for the same. 
 It sets event listener to inputArea so that on every change in inputText will regenerate output.
 Then it focuses on inputArea so user can directly paste it with out additional click*/
@@ -12,15 +12,16 @@ function init() {
     liActivities = document.getElementById("li-activity");
     liFragments = document.getElementById("li-fragment");
     liButterKnife = document.getElementById("li-butterknife");
-    liButterKnife8 = document.getElementById("li-butterknife8");
+    liButterKnifeLib = document.getElementById("li-butterknifeLib");
+    chkAddPrefix = document.getElementById("checkbox_add_prefix");
     textAreaInput.value = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\">\n\n    <LinearLayout\n        android:id=\"@+id/linear_parent\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"match_parent\"\n        android:orientation=\"vertical\">\n\n       <EditText\n                    android:id=\"@+id/edittext_userName\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"/>\n\n        <EditText\n                    android:id=\"@+id/edittext_password\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"/>\n\n        <Button\n                android:id=\"@+id/button_login\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"/>\n</RelativeLayout>\n";
     textAreaInput.addEventListener("input", updateOutput, false);
 
     lis = new Array();
     lis.push(liActivities);
     lis.push(liFragments);
-    lis.push(liButterKnife8);
     lis.push(liButterKnife);
+    lis.push(liButterKnifeLib);
     update_output_type(3);
     textAreaInput.focus();
 }
@@ -33,7 +34,6 @@ function update_output_type(typeID) {
         } else {
             lis[i].className = "li-custom";
         }
-
     };
     updateOutput();
 }
@@ -56,9 +56,9 @@ function updateOutput() {
     } else if (outputType == 2) {
         finalResult = getOutputForFragment();
     } else if (outputType == 3) {
-        finalResult = getOutputForButterKnife8();
-    } else if (outputType == 4) {
         finalResult = getOutputForButterKnife();
+    } else if (outputType == 4) {
+        finalResult = getOutputForButterKnifeLib();
     }
 
     console.log("output is " + finalResult);
@@ -97,7 +97,7 @@ function getOutputForButterKnife() {
     return finalResult;
 }
 
-function getOutputForButterKnife8() {
+function getOutputForButterKnifeLib() {
     var finalResult = "";
     console.log("I'm in function butterknife");
     //when atleast 1 view with android:id is found, appends output of each single view to finalResult
@@ -105,7 +105,7 @@ function getOutputForButterKnife8() {
         finalResult = "/** ButterKnife Code **/";
         for (var i = 0; i < views.length; i++) {
             var view = views[i];
-            var singleOutPut = getOutputLineForButterKnife8View(view);
+            var singleOutPut = getOutputLineForButterKnifeLibView(view);
             finalResult = finalResult + singleOutPut;
         }
         finalResult = finalResult + "\n /** ButterKnife Code **/"
@@ -113,6 +113,12 @@ function getOutputForButterKnife8() {
         finalResult = "/**No view found**/ ";
     }
     return finalResult;
+}
+
+function onCheckBoxClicked(argument) {
+    if (initialized) {
+        updateOutput();
+    }
 }
 
 function getOutputForActivity() {
@@ -232,7 +238,7 @@ this is sample oneViewXml
 */
 function getOutputLineForButterKnifeView(oneViewXml) {
     // ga('send', 'event', 'Process', 'singleOutPut request', "");
-    return "\n@Bind(R.id." + getIdFromView(oneViewXml).trim() + ") \n" + getClassNameForView(oneViewXml).trim() + " " + getJavaNameForView(oneViewXml).trim() + ";";
+    return "\n@BindView(R.id." + getIdFromView(oneViewXml).trim() + ") \n" + getClassNameForView(oneViewXml).trim() + " " + getJavaNameForView(oneViewXml).trim() + ";";
 }
 
 
@@ -249,9 +255,9 @@ this is sample oneViewXml
     Button loginButton;
 
 */
-function getOutputLineForButterKnife8View(oneViewXml) {
+function getOutputLineForButterKnifeLibView(oneViewXml) {
     // ga('send', 'event', 'Process', 'singleOutPut request', "");
-    return "\n@BindView(R.id." + getIdFromView(oneViewXml).trim() + ") \n" + getClassNameForView(oneViewXml).trim() + " " + getJavaNameForView(oneViewXml).trim() + ";";
+    return "\n@BindView(R2.id." + getIdFromView(oneViewXml).trim() + ") \n" + getClassNameForView(oneViewXml).trim() + " " + getJavaNameForView(oneViewXml).trim() + ";";
 }
 
 /*
@@ -361,10 +367,13 @@ sample view
 
 returns=>
 "loginButton"
+if add m prefix is selected, it will be mLoginButton
 */
 function getJavaNameForView(oneViewXml) {
     var xmlId = getIdFromView(oneViewXml).trim();
-
+    if (chkAddPrefix.checked) {
+        xmlId = "m_" + xmlId;
+    }
     var javaName = "";
     var underScoreIndex = xmlId.indexOf("_");
 

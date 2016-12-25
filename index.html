@@ -31,25 +31,42 @@
     </div>
     <div class="container-fluid">
         <div class="row area-holder">
-            <div class="col col-lg-6 col-io">
+            <div class="col col-lg-6 col-md-6 col-sm-6  col-io">
                 <div class="io-holder">
                     <div class="io-header">
                         <p class="custom-text io-header-text">XML layout</p>
                     </div>
-                    <textarea id="textAreaInput" class="io-text-area" onfocus="this.select();">
+                    <textarea id="textAreaInput" class="input-text-area" onfocus="this.select();">
                     </textarea>
                 </div>
             </div>
-            <div class="col col-lg-6 col-io">
+            <div class="col col-lg-6 col-md-6 col-sm-6 col-io">
                 <div class="io-holder">
                     <ul class="nav nav-pills nav-custom">
                         <li id="li-activity" class="li-custom" role="presentation"><a href="javascript:update_output_type(1);">Activities</a></li>
                         <li id="li-fragment" class="li-custom" role="presentation"><a href="javascript:update_output_type(2);">Fragments / ViewHolders / Others</a></li>
-                        <li id="li-butterknife8" class="li-custom active" role="presentation"><a href="javascript:update_output_type(3);" onClick>ButterKnife</a></li>
-                        <li id="li-butterknife" class="li-custom active" role="presentation"><a href="javascript:update_output_type(4);" onClick>ButterKnife &lt;v8.0.0</a></li>
+                        <li id="li-butterknife" class="li-custom active" role="presentation"><a href="javascript:update_output_type(3);" onClick>ButterKnife</a></li>
+                        <li id="li-butterknifeLib" class="li-custom active" role="presentation"><a href="javascript:update_output_type(4);" onClick>ButterKnife Lib. Module</a></li>
                     </ul>
-                    <textarea id="textAreaOutput" class="io-text-area" onfocus="this.select();">
+                    <textarea id="textAreaOutput" class="output-text-area" onfocus="this.select();">
                     </textarea>
+                    <div class="row div-add-prefix gravity_bottom ">
+                        <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 div-add-prefix">
+                            <input type="checkbox" name="checkbox" id="checkbox_add_prefix" value="value" onchange='onCheckBoxClicked();'>
+                            <label for="checkbox_add_prefix">Add 'm' prefix to variable name</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>Introduction</h3></div>
+                    <div class="panel-body">
+                        Mother of this tool is a question, why should I write whole binding code in java activity when view IDs are already mentioned in XML file.
+                    </div>
                 </div>
             </div>
         </div>

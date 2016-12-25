@@ -48,7 +48,14 @@
     vertical-align: center;
 }
 
-.io-text-area {
+.output-text-area {
+    width: 100%;
+    height: 85%;
+    background-color: #fff;
+    resize: none;
+}
+
+.input-text-area {
     width: 100%;
     height: 90%;
     background-color: #fff;
@@ -90,4 +97,16 @@ a {
     text-decoration: none;
     background-color: #d9ecde;
     color: green;
+}
+
+.div-add-prefix {
+    margin-left: 5px;
+}
+
+.gravity_bottom {
+    height: 5%;
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    border-radius: 0px 0px 10px 10px;
 }
