@@ -16,6 +16,22 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <!-- <link rel="stylesheet" type="text/css" href="theme.css"> -->
     <link rel="stylesheet" type="text/css" href="custom.css">
+    <script>
+    (function(i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function() {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-55878529-10', 'auto');
+    ga('send', 'pageview');
+    </script>
 </head>
 
 <body onload="init()" class="body-custom">
@@ -59,15 +75,75 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3>Introduction</h3></div>
-                    <div class="panel-body">
-                        Mother of this tool is a question, why should I write whole binding code in java activity when view IDs are already mentioned in XML file.
-                    </div>
-                </div>
+        <div class="panel panel-default intro-panel">
+            <div class="panel-heading">
+                <h3>Android View Binding (AVB) Code Generator </h3></div>
+            <div class="panel-body">
+                <h4>What is this?</h4> Mother of this tool is a question, why should I write whole binding code in java activity when view IDs are already mentioned in XML file.
+                <br/>This is a tool for those android developers who don't want to waste time in writing binding code. :)
+                <br/>
+                <br/>
+                <h4>How to use</h4>
+                <ol>
+                    <li>Add ids to all XML views which are required in java code</li>
+                    <li>Copy XML layout file</li>
+                    <li>Paste the copied file text in "XML layout" area</li>
+                    <li>Now copy the generated code</li>
+                    <li>Paste that code to java activity / fragment / viewholde / ... accordingly</li>
+                    <li>Done!</li>
+                </ol>
+                <br/>
+                <br/>
+                <h4>Use in Activity</h4>
+                <ul>
+                    <li>Make sure that output mode is set to <b>Acitivities</b></li>
+                    <li>After pasting generated code <i>(How to use step 5)</i>, call <b>bindViews()</b> function after <b>setContentView()</b> in onCreate() method.</li>
+                </ul>
+                <br/>
+                <h4>Use in Fragment / Viewholder etc..</h4>
+                <ul>
+                    <li>Make sure that output mode is set to <b>Fragments / ViewHolders / Others</b></li>
+                    <li>After pasting generated code <i>(How to use step 5)</i>, call <b>bindViews()</b> function when layout is populated.
+                        <ul>
+                            <li>Fragments: in function <b>onViewCreated()</b>.</li>
+                            <li>Viewholders: after super(view); call in constructor.</b>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <br/>
+                <h4>Use with ButterKnife</h4>
+                <a href="http://jakewharton.github.io/butterknife/">Butter Knife</a> is a great and well known android library used for view injection.It is maintained by <a href="https://github.com/JakeWharton">Jake Wharton</a>. To integrate ButterKnife, check github <a href="https://github.com/JakeWharton/butterknife"> guide.</a>
+                <ul>
+                    <li>Set output mode to <b>ButterKnife</b></li>
+                    <li>After pasting generated code <i>(How to use step 5)</i>, call ButterKnife bind code when layout is populated. Make sure you are using ButterKnife library version >8.</li>
+                    <li>Check <a href="http://jakewharton.github.io/butterknife/">Butter Knife guide</a> for more details.</li>
+                </ul>
+                <br/>
+                <h4>Use with ButterKnife in Library Module</h4>
+                <ul>
+                    <li>Set output mode to <b>ButterKnife Lib. Module</b></li>
+                    <li>After pasting generated code <i>(How to use step 5)</i>, call ButterKnife bind code when layout is populated.</li>
+                    <li>This uses R2.id.tvTitle instead of R.id.tvTitle. Please check Butter Knife's <a href="https://github.com/JakeWharton/butterknife#library-projects"> library module guide</a> for complete integration details.</li>
+                    </li>
+                </ul>
+                <br/>
+                <h4>Add 'm' prefix to variable name</h4>
+                <ul>
+                    <li>Many developers follow naming convention with prefix 'm'.</li>
+                    <li>Add / remove prefix using checkbox at the bottom of generated code block.</li>
+                </ul>
+                <br/>
+                <h4>Note</h4>
+                <ul>
+                    <li>Binder code will be generated for views which have declared
+                        <label style="font-style:italic;">android:id</label>.</li>
+                    <li>View's variable name will be the camelCase of it's xml
+                        <label style="font-style:italic;">android:id</label>.</li>
+                    <li>Can not generate binder code for views which are included using
+                        <label style="font-style:italic;">&lt;include layout="@layout/custom_layout"&gt;</label>.
+                        <li>If anything goes wrong, please create an issue on <a href="https://goo.gl/K8wIus">Github repository.</a> In issue, please add xml file's text for which tool did not work correctly.</li>
+                </ul>
             </div>
         </div>
     </div>

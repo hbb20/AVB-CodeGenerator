@@ -113,3 +113,7 @@ a {
     bottom: 0px;
     border-radius: 0px 0px 10px 10px;
 }
+
+.intro-panel {
+    margin: 10px;
+}

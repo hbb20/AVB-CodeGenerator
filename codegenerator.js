@@ -17,7 +17,7 @@ function init() {
     liButterKnifeLib = document.getElementById("li-butterknifeLib");
     chkAddPrefix = document.getElementById("checkbox_add_prefix");
     textAreaInput.value = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\">\n\n    <LinearLayout\n        android:id=\"@+id/linear_parent\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"match_parent\"\n        android:orientation=\"vertical\">\n\n       <EditText\n                    android:id=\"@+id/edittext_userName\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"/>\n\n        <EditText\n                    android:id=\"@+id/edittext_password\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"/>\n\n        <Button\n                android:id=\"@+id/button_login\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"/>\n</RelativeLayout>\n";
-    textAreaInput.addEventListener("input", updateOutput, false);
+    textAreaInput.addEventListener("input", on_input_updated, false);
 
     lis = new Array();
     lis.push(liActivities);
@@ -64,6 +64,13 @@ function update_output_type(typeID) {
     updateOutput();
 }
 
+function on_input_updated() {
+    if (initialized) {
+        ga('send', 'inputUpdated');
+    }
+    updateOutput();
+}
+
 /*This will process on inputText and puts according output in output area.
  */
 function updateOutput() {
@@ -92,7 +99,7 @@ function updateOutput() {
 
     //analytics
     if (initialized) {
-        //ga('send', 'event', 'codeGeneration', 'outPut updated', finalResult);
+        ga('send', 'event', 'codeGeneration', 'outPut updated', finalResult);
     }
     //sets final result to output
     textAreaOutput.value = finalResult;
@@ -182,7 +189,7 @@ function getActivityBinderCode() {
     var finalResult = "";
     if (views.length != 0) {
         finalResult = "/**\n * Binds XML views \n * Call this function after setContentView() in onCreate().\n**/ ";
-        finalResult = finalResult + " \n private void bindViews(){"
+        finalResult = finalResult + " \nprivate void bindViews(){"
         for (var i = 0; i < views.length; i++) {
             var view = views[i];
             var singleOutPut = getOutputLineForActivityBind(view);
@@ -197,7 +204,7 @@ function getFragmentBinderCode() {
     var finalResult = "";
     if (views.length != 0) {
         finalResult = "/**\n * Binds XML views \n * Call this function after layout is ready.\n**/ ";
-        finalResult = finalResult + " \n private void bindViews(View rootView){"
+        finalResult = finalResult + " \nprivate void bindViews(View rootView){"
         for (var i = 0; i < views.length; i++) {
             var view = views[i];
             var singleOutPut = getOutputLineForFragmentBind(view);
