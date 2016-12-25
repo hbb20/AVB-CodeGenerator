@@ -1,6 +1,8 @@
 var textAreaInput, textAreaOutput;
 var views;
 var initialized = false;
+var cOutputMode = "cookieOutputMode";
+var cAddPrefix = "cookieAddPrefix";
 var outputType = 3; //1: Activity 2: Fragment  3: ButterKnife 4: ButterKnifeLib
 var liActivities, liFragments, liButterKnife, liButterKnifeLib, lis, chkAddPrefix;
 /*This will set initial value for input and set output for the same. 
@@ -22,14 +24,38 @@ function init() {
     lis.push(liFragments);
     lis.push(liButterKnife);
     lis.push(liButterKnifeLib);
-    update_output_type(3);
+    set_add_prefix_check_from_cookie();
+    update_output_type(getOutputModeFromCookie());
     textAreaInput.focus();
+}
+
+function set_add_prefix_check_from_cookie() {
+    var storedValue = getCookie(cAddPrefix);
+    if (storedValue == "") {
+        storedValue = "false";
+    }
+
+    if (storedValue == "false") {
+        chkAddPrefix.checked = false;
+    } else {
+        chkAddPrefix.checked = true;
+    }
+}
+
+function getOutputModeFromCookie() {
+    var storedValue = getCookie(cOutputMode);
+    if (storedValue == "") { //means no value stored
+        return 4;
+    } else {
+        return storedValue;
+    }
 }
 
 function update_output_type(typeID) {
     outputType = typeID;
     for (var i = 0; i < lis.length; i++) {
         if (i + 1 == typeID) { //active type
+            setCookie(cOutputMode, i + 1);
             lis[i].className = "li-custom active";
         } else {
             lis[i].className = "li-custom";
@@ -117,6 +143,7 @@ function getOutputForButterKnifeLib() {
 
 function onCheckBoxClicked(argument) {
     if (initialized) {
+        setCookie(cAddPrefix, chkAddPrefix.checked);
         updateOutput();
     }
 }
@@ -398,4 +425,32 @@ function getJavaNameForView(oneViewXml) {
     }
     // ga('send', 'event', 'Process', 'javaname generation', "xmlId:" + xmlId + "; javaName:" + javaName);
     return javaName;
+}
+
+
+// get cookie and set cookie code is from w3schools
+function setCookie(cname, cvalue) {
+    console.log("cookie storing for " + cname + " value: " + cvalue);
+    var d = new Date();
+    d.setTime(d.getTime() + (30 * 24 * 60 * 60 * 1000)); //30 days
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";domain = ''";
+    console.log("cookie stored for " + cname + " value: " + cvalue);
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            console.log("Cookie value available for " + cname + " is " + c.substring(name.length, c.length));
+            return c.substring(name.length, c.length);
+        }
+    }
+    console.log("No cookie available for " + cname);
+    return "";
 }

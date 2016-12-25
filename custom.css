@@ -50,7 +50,7 @@
 
 .output-text-area {
     width: 100%;
-    height: 85%;
+    height: 83%;
     background-color: #fff;
     resize: none;
 }
@@ -100,12 +100,15 @@ a {
 }
 
 .div-add-prefix {
+    vertical-align: middle;
     margin-left: 5px;
+    margin-top: 7px;
 }
 
 .gravity_bottom {
-    height: 5%;
+    height: 7%;
     position: absolute;
+    vertical-align: middle;
     width: 100%;
     bottom: 0px;
     border-radius: 0px 0px 10px 10px;
