@@ -1,1 +1,59 @@
-<h1>Setup<h1>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>AVB Code Generator</title>
+    <script src="codegenerator.js"></script>
+    <link rel="stylesheet" type="text/css" href="navbar.css">
+    <link rel="icon" href="favicon.png" type="image/png" sizes="128x128">
+    <link src="codegenerator.js">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="theme.css"> -->
+    <link rel="stylesheet" type="text/css" href="custom.css">
+</head>
+
+<body onload="init()" class="body-custom">
+    <div>
+        <nav class="navbar navbar-custom">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <h1 class="custom-text">Android View Binding (AVB) Code Generator</h1>
+                    <h4 class="custom-text">An easy way to generate binding code from XML layout</h4>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="container-fluid">
+        <div class="row area-holder">
+            <div class="col col-lg-6 col-io">
+                <div class="io-holder">
+                    <div class="io-header">
+                        <p class="custom-text io-header-text">XML layout</p>
+                    </div>
+                    <textarea id="textAreaInput" class="io-text-area" onfocus="this.select();">
+                    </textarea>
+                </div>
+            </div>
+            <div class="col col-lg-6 col-io">
+                <div class="io-holder">
+                    <ul class="nav nav-pills nav-custom">
+                        <li id="li-activity" class="li-custom" role="presentation"><a href="javascript:update_output_type(1);">Activities</a></li>
+                        <li id="li-fragment" class="li-custom" role="presentation"><a href="javascript:update_output_type(2);">Fragments / ViewHolders / Others</a></li>
+                        <li id="li-butterknife8" class="li-custom active" role="presentation"><a href="javascript:update_output_type(3);" onClick>ButterKnife</a></li>
+                        <li id="li-butterknife" class="li-custom active" role="presentation"><a href="javascript:update_output_type(4);" onClick>ButterKnife &lt;v8.0.0</a></li>
+                    </ul>
+                    <textarea id="textAreaOutput" class="io-text-area" onfocus="this.select();">
+                    </textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
