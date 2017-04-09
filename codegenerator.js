@@ -3,7 +3,7 @@ var views;
 var initialized = false;
 var cOutputMode = "cookieOutputMode";
 var cAddPrefix = "cookieAddPrefix";
-var outputType = 3; //1: Activity 2: Fragment  3: ButterKnife 4: ButterKnifeLib
+var outputType = 1; //1: Activity 2: Fragment  3: ButterKnife 4: ButterKnifeLib
 var liActivities, liFragments, liButterKnife, liButterKnifeLib, lis, chkAddPrefix;
 /*This will set initial value for input and set output for the same. 
 It sets event listener to inputArea so that on every change in inputText will regenerate output.
@@ -45,7 +45,7 @@ function set_add_prefix_check_from_cookie() {
 function getOutputModeFromCookie() {
     var storedValue = getCookie(cOutputMode);
     if (storedValue == "") { //means no value stored
-        return 4;
+        return 1; //default is for activity output
     } else {
         return storedValue;
     }
