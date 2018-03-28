@@ -66,10 +66,13 @@
                     </ul>
                     <textarea id="textAreaOutput" class="output-text-area" onfocus="this.select();">
                     </textarea>
-                    <div class="row div-add-prefix gravity_bottom ">
+                    <div class="row div-add-prefix ">
                         <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 div-add-prefix">
                             <input type="checkbox" name="checkbox" id="checkbox_add_prefix" value="value" onchange='onCheckBoxClicked();'>
-                            <label for="checkbox_add_prefix">Add 'm' prefix to variable name. For example, 'mEdittextUserName'</label>
+                            Add 'm' prefix to variable name. For example, <b>'mEdittextUserName'</b>
+                            <br/>
+                            <input type="checkbox" name="checkbox" id="checkbox_do_type_cast" value="value" onchange='onCheckBoxClicked();'>
+                            Add typecasting for view. For example, '<b>(TextView)</b> findViewById(R.id.tv_name);'
                         </div>
                     </div>
                 </div>

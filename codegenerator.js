@@ -3,8 +3,9 @@ var views;
 var initialized = false;
 var cOutputMode = "cookieOutputMode";
 var cAddPrefix = "cookieAddPrefix";
+var cDoTypeCast ="cookieDoTypeCast";
 var outputType = 1; //1: Activity 2: Fragment  3: ButterKnife 4: ButterKnifeLib
-var liActivities, liFragments, liButterKnife, liButterKnifeLib, lis, chkAddPrefix;
+var liActivities, liFragments, liButterKnife, liButterKnifeLib, lis, chkAddPrefix, chkDoTypeCast;
 /*This will set initial value for input and set output for the same. 
 It sets event listener to inputArea so that on every change in inputText will regenerate output.
 Then it focuses on inputArea so user can directly paste it with out additional click*/
@@ -16,6 +17,7 @@ function init() {
     liButterKnife = document.getElementById("li-butterknife");
     liButterKnifeLib = document.getElementById("li-butterknifeLib");
     chkAddPrefix = document.getElementById("checkbox_add_prefix");
+    chkDoTypeCast = document.getElementById("checkbox_do_type_cast");
     textAreaInput.value = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\">\n\n    <LinearLayout\n        android:id=\"@+id/linear_parent\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"match_parent\"\n        android:orientation=\"vertical\">\n\n       <EditText\n                    android:id=\"@+id/edittext_userName\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"/>\n\n        <EditText\n                    android:id=\"@+id/edittext_password\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"/>\n\n        <Button\n                android:id=\"@+id/button_login\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"/>\n</RelativeLayout>\n";
     textAreaInput.addEventListener("input", on_input_updated, false);
 
@@ -24,6 +26,7 @@ function init() {
     lis.push(liFragments);
     lis.push(liButterKnife);
     lis.push(liButterKnifeLib);
+    set_do_type_cast_from_cookie();
     set_add_prefix_check_from_cookie();
     update_output_type(getOutputModeFromCookie());
     textAreaInput.focus();
@@ -41,6 +44,20 @@ function set_add_prefix_check_from_cookie() {
         chkAddPrefix.checked = true;
     }
 }
+
+function set_do_type_cast_from_cookie() {
+    var storedCastValue = getCookie(cDoTypeCast);
+    if (storedCastValue == "") {
+        storedCastValue = "false";
+    }
+
+    if (storedCastValue == "false") {
+        chkDoTypeCast.checked = false;
+    } else {
+        chkDoTypeCast.checked = true;
+    }
+}
+
 
 function getOutputModeFromCookie() {
     var storedValue = getCookie(cOutputMode);
@@ -150,7 +167,12 @@ function getOutputForButterKnifeLib() {
 
 function onCheckBoxClicked(argument) {
     if (initialized) {
+        setCookie(cDoTypeCast, "True");
         setCookie(cAddPrefix, chkAddPrefix.checked);
+    
+        console.log("check box cast values"+chkAddPrefix.checked+":"+chkDoTypeCast.checked);
+        console.log("prefix cast value:"+getCookie(cAddPrefix));
+        console.log("Type cast value:"+getCookie(cDoTypeCast));
         updateOutput();
     }
 }
@@ -325,7 +347,7 @@ this is sample oneViewXml
 */
 function getOutputLineForActivityBind(oneViewXml) {
     // ga('send', 'event', 'Process', 'singleOutPut request', "");
-    return "\t " + getJavaNameForView(oneViewXml).trim() + " = (" + getClassNameForView(oneViewXml).trim() + ") findViewById(R.id." + getIdFromView(oneViewXml).trim() + ");";
+    return "\t " + getJavaNameForView(oneViewXml).trim() + " = " + getClassNameForViewCast(oneViewXml).trim() + " findViewById(R.id." + getIdFromView(oneViewXml).trim() + ");";
 }
 
 /*
@@ -342,7 +364,7 @@ this is sample oneViewXml
 */
 function getOutputLineForFragmentBind(oneViewXml) {
     // ga('send', 'event', 'Process', 'singleOutPut request', "");
-    return "\t " + getJavaNameForView(oneViewXml).trim() + " = (" + getClassNameForView(oneViewXml).trim() + ") rootView.findViewById(R.id." + getIdFromView(oneViewXml).trim() + ");";
+    return "\t " + getJavaNameForView(oneViewXml).trim() + " = " + getClassNameForViewCast(oneViewXml).trim() + " rootView.findViewById(R.id." + getIdFromView(oneViewXml).trim() + ");";
 }
 
 
@@ -366,6 +388,18 @@ function getClassNameForView(oneViewXml) {
         return output;
     }
     return "Object";
+}
+
+/**
+ * If typecasting is enabled, then returns class with () otherwise none
+ * @param {XML View} oneViewXml 
+ */
+function getClassNameForViewCast(oneViewXml) {
+    if(chkDoTypeCast.checked){
+        return "("+getClassNameForView(oneViewXml).trim()+")";
+    }else{
+        return "";
+    }
 }
 
 
